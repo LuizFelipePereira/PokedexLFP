@@ -1,6 +1,8 @@
 package com.example.nbluiz.pokedexlfp.adapters;
 
 import android.support.v7.widget.RecyclerView;
+
+import java.util.HashMap;
 import java.util.List;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +53,6 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokeView
     public void onBindViewHolder(PokeViewHolder holder, int position) {
         Pokemon pokemon = pokeList.get(position);
         holder.name.setText(pokemon.getName());
-        holder.type.setText(pokemon.getType());
+        holder.type.setText(pokemon.pokeTypesToString());
     }
 }

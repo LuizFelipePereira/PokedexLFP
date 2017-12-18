@@ -12,13 +12,13 @@ import java.util.List;
 public class Types {
 
     @SerializedName("type")
-    private List<Type> type = new ArrayList<>();
+    private Type type;
 
-    public List<Type> getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(List<Type> type) {
+    public void setType(Type type) {
         this.type = type;
     }
 }

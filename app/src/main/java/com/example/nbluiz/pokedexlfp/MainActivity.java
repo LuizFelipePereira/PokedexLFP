@@ -16,8 +16,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.nbluiz.pokedexlfp.activitys.ActivityPokemons;
+
+import com.example.nbluiz.pokedexlfp.API.Client;
+import com.example.nbluiz.pokedexlfp.API.Interface;
 import com.example.nbluiz.pokedexlfp.fragments.FragmentPokemons;
+import com.example.nbluiz.pokedexlfp.models.Pokemon;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -105,4 +112,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
+
+
 }

@@ -7,16 +7,23 @@ import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nbluiz.pokedexlfp.API.Client;
+import com.example.nbluiz.pokedexlfp.API.Interface;
 import com.example.nbluiz.pokedexlfp.R;
 import com.example.nbluiz.pokedexlfp.adapters.PokemonAdapter;
 import com.example.nbluiz.pokedexlfp.models.Pokemon;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FragmentPokemons extends Fragment {
@@ -44,5 +51,7 @@ public class FragmentPokemons extends Fragment {
 
         return rootView;
     }
+
+
 
 }

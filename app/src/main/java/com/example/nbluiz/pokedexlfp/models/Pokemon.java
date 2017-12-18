@@ -131,4 +131,15 @@ public class Pokemon {
     public void setSprites(List<Sprites> sprites) {
         this.sprites = sprites;
     }
+
+    public String pokeTypesToString() {
+        String types = "";
+        for (int i = 0; i < pokeTypes.size(); i++) {
+            if(i > 0)
+                types += ", ";
+            types += pokeTypes.get(1).getType().getName();
+        }
+
+        return types;
+    }
 }
