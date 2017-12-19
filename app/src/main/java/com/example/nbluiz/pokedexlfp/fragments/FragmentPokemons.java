@@ -1,19 +1,19 @@
 package com.example.nbluiz.pokedexlfp.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.nbluiz.pokedexlfp.API.Client;
-import com.example.nbluiz.pokedexlfp.API.Interface;
+import com.example.nbluiz.pokedexlfp.API.ApiClient;
+import com.example.nbluiz.pokedexlfp.API.ApiInterface;
 import com.example.nbluiz.pokedexlfp.R;
 import com.example.nbluiz.pokedexlfp.adapters.PokemonAdapter;
 import com.example.nbluiz.pokedexlfp.models.Pokemon;
@@ -46,10 +46,41 @@ public class FragmentPokemons extends Fragment {
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.setAdapter(pokemonAdapter);
 
+       insertPokemon();
+
         return rootView;
+    }
+
+    private void insertPokemon() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        for(int i = 1; i <= 30; i++) {
+            Call<Pokemon> call = apiService.getPokemon(i);
+            call.enqueue(new Callback<Pokemon>() {
+                @Override
+                public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                    if(response.isSuccessful()) {
+                        Pokemon pokemon = response.body();
+
+                        pokeList.add(pokemon);
+                        pokemonAdapter.notifyDataSetChanged();
+
+                        Log.i("POKEMON", "Name: " + pokemon.getName());
+                        Log.i("POKEMON", "Height: " + pokemon.getHeight());
+                        Log.i("POKEMON", "Weight: " + pokemon.getWeight());
+
+                    }
+                }
+                @Override
+                public void onFailure(Call<Pokemon> call, Throwable t) {
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 

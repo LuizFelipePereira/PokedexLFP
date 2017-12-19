@@ -2,29 +2,18 @@ package com.example.nbluiz.pokedexlfp;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 
-import com.example.nbluiz.pokedexlfp.API.Client;
-import com.example.nbluiz.pokedexlfp.API.Interface;
+import com.example.nbluiz.pokedexlfp.fragments.FragmentItens;
 import com.example.nbluiz.pokedexlfp.fragments.FragmentPokemons;
-import com.example.nbluiz.pokedexlfp.models.Pokemon;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,8 +36,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        displayFragment(R.id.nav_pokemon);
     }
 
     @Override
@@ -97,6 +84,8 @@ public class MainActivity extends AppCompatActivity
                     fragment = (Fragment) fragmentClass.newInstance();
                     break;
                 case R.id.nav_itens:
+                    fragmentClass = FragmentItens.class;
+                    fragment = (Fragment) fragmentClass.newInstance();
                     break;
             }
         } catch (Exception e) {

@@ -5,9 +5,10 @@ package com.example.nbluiz.pokedexlfp.models;
  */
 import com.google.gson.annotations.SerializedName;
 
-public class Sprites {
 
-    @SerializedName("front_default")
+public class SpriteItem {
+
+    @SerializedName("default")
     private String front_default;
 
     public String getFront_default() {

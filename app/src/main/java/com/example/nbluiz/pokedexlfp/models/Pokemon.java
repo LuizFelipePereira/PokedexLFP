@@ -9,40 +9,26 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Pokemon {
 
     @SerializedName("name")
     private String name;
 
-    @SerializedName("base_experience")
-    private String experience;
-
     @SerializedName("height")
-    private String height;
+    private Integer height;
 
     @SerializedName("weight")
-    private String weight;
+    private Integer weight;
+
+    @SerializedName("sprites")
+    private Sprite sprites;
+
+    @SerializedName("types")
+    private List<Type> pokeTypes = new ArrayList<>();
 
     @SerializedName("abilities")
     private List<Abilities> abilities = new ArrayList<>();
-
-    @SerializedName("forms")
-    private List<Forms> forms = new ArrayList<>();
-
-    @SerializedName("moves")
-    private List<Moves> moves = new ArrayList<>();
-
-    @SerializedName("species")
-    private List<Species> species = new ArrayList<>();
-
-    @SerializedName("stats")
-    private List<Stats> stats = new ArrayList<>();
-
-    @SerializedName("types")
-    private List<Types> pokeTypes = new ArrayList<>();
-
-    @SerializedName("sprites")
-    private List<Sprites> sprites = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -52,28 +38,36 @@ public class Pokemon {
         this.name = name;
     }
 
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
-    }
-
-    public String getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
-    public String getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
+    }
+
+    public Sprite getSprites() {
+        return sprites;
+    }
+
+    public void setSprites(Sprite sprites) {
+        this.sprites = sprites;
+    }
+
+    public List<Type> getPokeTypes() {
+        return pokeTypes;
+    }
+
+    public void setPokeTypes(List<Type> pokeTypes) {
+        this.pokeTypes = pokeTypes;
     }
 
     public List<Abilities> getAbilities() {
@@ -84,60 +78,12 @@ public class Pokemon {
         this.abilities = abilities;
     }
 
-    public List<Forms> getForms() {
-        return forms;
-    }
-
-    public void setForms(List<Forms> forms) {
-        this.forms = forms;
-    }
-
-    public List<Moves> getMoves() {
-        return moves;
-    }
-
-    public void setMoves(List<Moves> moves) {
-        this.moves = moves;
-    }
-
-    public List<Species> getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(List<Species> species) {
-        this.species = species;
-    }
-
-    public List<Stats> getStats() {
-        return stats;
-    }
-
-    public void setStats(List<Stats> stats) {
-        this.stats = stats;
-    }
-
-    public List<Types> getPokeTypes() {
-        return pokeTypes;
-    }
-
-    public void setPokeTypes(List<Types> pokeTypes) {
-        this.pokeTypes = pokeTypes;
-    }
-
-    public List<Sprites> getSprites() {
-        return sprites;
-    }
-
-    public void setSprites(List<Sprites> sprites) {
-        this.sprites = sprites;
-    }
-
     public String pokeTypesToString() {
         String types = "";
         for (int i = 0; i < pokeTypes.size(); i++) {
             if(i > 0)
                 types += ", ";
-            types += pokeTypes.get(1).getType().getName();
+            types += pokeTypes.get(i).getName();
         }
 
         return types;

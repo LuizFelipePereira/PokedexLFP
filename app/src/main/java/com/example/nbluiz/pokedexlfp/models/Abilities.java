@@ -17,6 +17,11 @@ public class Abilities {
     @SerializedName("stat")
     private List<Stat> abilities = new ArrayList<>();
 
+    public Abilities(String is_hidden, List<Stat> abilities) {
+        this.is_hidden = is_hidden;
+        this.abilities = abilities;
+    }
+
     public String getIs_hidden() {
         return is_hidden;
     }

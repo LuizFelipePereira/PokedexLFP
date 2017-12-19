@@ -8,7 +8,7 @@ package com.example.nbluiz.pokedexlfp.API;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Client {
+public class ApiClient {
 
     public static final String BASE_URL = "http://pokeapi.co/";
     private static Retrofit retrofit = null;

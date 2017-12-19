@@ -1,9 +1,6 @@
 package com.example.nbluiz.pokedexlfp.adapters;
 
 import android.support.v7.widget.RecyclerView;
-
-import java.util.HashMap;
-import java.util.List;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,69 +10,71 @@ import android.widget.TextView;
 import com.example.nbluiz.pokedexlfp.API.ApiClient;
 import com.example.nbluiz.pokedexlfp.API.ApiInterface;
 import com.example.nbluiz.pokedexlfp.R;
+import com.example.nbluiz.pokedexlfp.models.Item;
 import com.example.nbluiz.pokedexlfp.models.Pokemon;
 import com.example.nbluiz.pokedexlfp.models.Sprite;
+import com.example.nbluiz.pokedexlfp.models.SpriteItem;
 import com.squareup.picasso.Picasso;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
+import retrofit2.Call;
 
 /**
- * Created by nbLuiz on 17/12/2017.
+ * Created by nbLuiz on 19/12/2017.
  */
 
-public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokeViewHolder> {
+public class ItemAdapter  extends RecyclerView.Adapter<ItemAdapter.PokeViewHolder> {
 
-    private List<Pokemon> pokeList;
+    private List<Item> itemList;
 
     public class PokeViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, type;
-        public ImageView ivPokemon;
+        public TextView name;
+        public ImageView ivItem;
 
         public PokeViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.tv_name);
-            ivPokemon = (ImageView) itemView.findViewById(R.id.iv_pokemon);
+            name = (TextView) itemView.findViewById(R.id.tv_name_item);
+            ivItem = (ImageView) itemView.findViewById(R.id.tv_imagem_item);
         }
     }
 
-    public PokemonAdapter(List<Pokemon> pokemonList) {
-        this.pokeList = pokemonList;
+    public ItemAdapter(List<Item> itemList) {
+        this.itemList = itemList;
     }
 
 
     @Override
     public int getItemCount() {
-        return pokeList.size();
+        return itemList.size();
     }
 
     @Override
-    public PokeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemAdapter.PokeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.pokemonrow, parent, false);
+        View itemView = inflater.inflate(R.layout.itemrow, parent, false);
 
-        return new PokeViewHolder(itemView);
+        return new ItemAdapter.PokeViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final PokeViewHolder holder, int position) {
-        Pokemon pokemon = pokeList.get(position);
-        holder.name.setText(pokemon.getName());
+    public void onBindViewHolder(PokeViewHolder holder, int position) {
+        Item item = itemList.get(position);
+        holder.name.setText(item.getName());
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-
-        Sprite sprite = pokemon.getSprites();
+        SpriteItem sprite = item.getSprites();
         String spriteUrl = sprite.getFront_default();
 
         Call<Sprite> call = apiService.getSprite(spriteUrl);
         String image = spriteUrl;
 
-        Picasso.with(holder.ivPokemon.getContext())
+        Picasso.with(holder.ivItem.getContext())
                 .load(image)
                 .resize(64, 64)
-                .into(holder.ivPokemon);
+                .into(holder.ivItem);
 
     }
+
+
 }
