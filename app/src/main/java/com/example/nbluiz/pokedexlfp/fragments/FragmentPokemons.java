@@ -1,5 +1,8 @@
 package com.example.nbluiz.pokedexlfp.fragments;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.example.nbluiz.pokedexlfp.API.ApiClient;
 import com.example.nbluiz.pokedexlfp.API.ApiInterface;
 import com.example.nbluiz.pokedexlfp.R;
+import com.example.nbluiz.pokedexlfp.Recycler.RecyclerTouchListener;
 import com.example.nbluiz.pokedexlfp.adapters.PokemonAdapter;
 import com.example.nbluiz.pokedexlfp.models.Pokemon;
 
@@ -50,6 +54,18 @@ public class FragmentPokemons extends Fragment {
 
         recyclerView.setAdapter(pokemonAdapter);
 
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                startDetail(pokeList.get(position).getId());
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
        insertPokemon();
 
         return rootView;
@@ -80,6 +96,35 @@ public class FragmentPokemons extends Fragment {
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private void startDetail(Integer id) {
+        Class fragmentClass;
+        Fragment fragment = null;
+        fragmentClass = DetailFragment.class;
+        try {
+             Bundle args = new Bundle();
+
+            args.putInt("idPokemon",id);
+
+            fragment = (Fragment) fragmentClass.newInstance();
+
+            fragment.setArguments(args);
+
+
+            FragmentTransaction transacao = getFragmentManager().beginTransaction();
+            transacao.replace(R.id.tv_detail, fragment);
+            transacao.commit();
+
+        } catch (Exception e) {
+            try {
+                Toast.makeText(getActivity(),
+                        "Error during open Details Pokemon",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e1) {
+                System.out.println(e1.getMessage());
+            }
         }
     }
 
