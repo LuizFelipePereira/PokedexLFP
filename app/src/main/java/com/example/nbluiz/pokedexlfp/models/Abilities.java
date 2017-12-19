@@ -1,5 +1,6 @@
 package com.example.nbluiz.pokedexlfp.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -10,16 +11,21 @@ import java.util.List;
  */
 
 public class Abilities {
-
     @SerializedName("is_hidden")
+    @Expose
     private String is_hidden;
 
-    @SerializedName("stat")
-    private List<Stat> abilities = new ArrayList<>();
+    @SerializedName("slot")
+    @Expose
+    private Integer slot;
 
-    public Abilities(String is_hidden, List<Stat> abilities) {
+    @SerializedName("ability")
+    @Expose
+    private Ability ability;
+
+    public Abilities(String is_hidden, Ability abilities) {
         this.is_hidden = is_hidden;
-        this.abilities = abilities;
+        this.ability =  abilities;
     }
 
     public String getIs_hidden() {
@@ -30,11 +36,23 @@ public class Abilities {
         this.is_hidden = is_hidden;
     }
 
-    public List<Stat> getAbilities() {
-        return abilities;
+    public Integer getSlot() {
+        return slot;
     }
 
-    public void setAbilities(List<Stat> abilities) {
-        this.abilities = abilities;
+    public void setSlot(Integer slot) {
+        this.slot = slot;
     }
+
+    public Ability getAbility() {
+
+        return ability;
+    }
+
+    public void setAbility(Ability ability) {
+        this.ability = ability;
+    }
+
+
+
 }

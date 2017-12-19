@@ -1,5 +1,6 @@
 package com.example.nbluiz.pokedexlfp.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,10 +8,13 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Type {
+
     @SerializedName("name")
+    @Expose
     private String name;
 
     @SerializedName("url")
+    @Expose
     private String url;
 
     public String getName() {

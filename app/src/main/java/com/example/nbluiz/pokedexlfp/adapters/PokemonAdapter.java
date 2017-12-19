@@ -67,7 +67,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokeView
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
         Sprite sprite = pokemon.getSprites();
-        String spriteUrl = sprite.getFront_default();
+        String spriteUrl = sprite.getFrontDefault();
 
         Call<Sprite> call = apiService.getSprite(spriteUrl);
         String image = spriteUrl;

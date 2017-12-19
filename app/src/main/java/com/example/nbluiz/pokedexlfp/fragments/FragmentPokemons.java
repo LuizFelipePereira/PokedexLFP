@@ -19,6 +19,7 @@ import com.example.nbluiz.pokedexlfp.API.ApiClient;
 import com.example.nbluiz.pokedexlfp.API.ApiInterface;
 import com.example.nbluiz.pokedexlfp.R;
 import com.example.nbluiz.pokedexlfp.Recycler.RecyclerTouchListener;
+import com.example.nbluiz.pokedexlfp.activity.Detail;
 import com.example.nbluiz.pokedexlfp.adapters.PokemonAdapter;
 import com.example.nbluiz.pokedexlfp.models.Pokemon;
 
@@ -99,34 +100,13 @@ public class FragmentPokemons extends Fragment {
         }
     }
 
-    private void startDetail(Integer id) {
-        Class fragmentClass;
-        Fragment fragment = null;
-        fragmentClass = DetailFragment.class;
-        try {
-             Bundle args = new Bundle();
-
-            args.putInt("idPokemon",id);
-
-            fragment = (Fragment) fragmentClass.newInstance();
-
-            fragment.setArguments(args);
-
-
-            FragmentTransaction transacao = getFragmentManager().beginTransaction();
-            transacao.replace(R.id.tv_detail, fragment);
-            transacao.commit();
-
-        } catch (Exception e) {
-            try {
-                Toast.makeText(getActivity(),
-                        "Error during open Details Pokemon",
-                        Toast.LENGTH_SHORT).show();
-            } catch (Exception e1) {
-                System.out.println(e1.getMessage());
-            }
-        }
+    private void startDetail(int id) {
+        Intent i = new Intent(getActivity(), Detail.class);
+        i.putExtra("ID", id);
+        startActivity(i);
     }
+
+
 
 
 
