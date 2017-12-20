@@ -24,10 +24,11 @@
         android:id="@+id/tv_name_item"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_alignParentTop="false"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/iv_pokemon"
         android:layout_toEndOf="@+id/iv_pokemon" />
+
 
 </RelativeLayout>

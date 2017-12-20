@@ -58,9 +58,24 @@ public class FragmentPokemons extends Fragment {
 
         recyclerView.setAdapter(pokemonAdapter);
         recyclerView.setHasFixedSize(true);
+
         //final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),3);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                startDetail(pokeList.get(position).getId());
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -86,17 +101,7 @@ public class FragmentPokemons extends Fragment {
         });
 
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                startDetail(pokeList.get(position).getId());
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
 
         apto = true;
         offset = 0;
