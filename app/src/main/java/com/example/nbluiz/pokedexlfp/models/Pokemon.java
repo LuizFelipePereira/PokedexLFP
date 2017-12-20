@@ -19,6 +19,8 @@ public class Pokemon {
     @SerializedName("name")
     private String name;
 
+    private String url;
+
     @SerializedName("height")
     private Integer height;
 
@@ -39,11 +41,21 @@ public class Pokemon {
     private List<Types> pokeTypes = new ArrayList<>();
 
     public Integer getId() {
+        String[] urlPartes = url.split("/");
+
+        return Integer.parseInt(urlPartes[urlPartes.length - 1]);
+    }
+
+    public Integer getIdPokemon() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getName() {
@@ -131,5 +143,7 @@ public class Pokemon {
         }
         return move;
     }
+
+
 
 }

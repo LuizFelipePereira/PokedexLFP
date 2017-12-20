@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,8 +22,10 @@ import com.example.nbluiz.pokedexlfp.R;
 import com.example.nbluiz.pokedexlfp.Recycler.RecyclerTouchListener;
 import com.example.nbluiz.pokedexlfp.activity.Detail;
 import com.example.nbluiz.pokedexlfp.adapters.PokemonAdapter;
+import com.example.nbluiz.pokedexlfp.models.ListPokemon;
 import com.example.nbluiz.pokedexlfp.models.Pokemon;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +33,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 
 public class FragmentPokemons extends Fragment {
 
-    private List<Pokemon> pokeList = new ArrayList<>();
+    private ArrayList<Pokemon> pokeList = new ArrayList<>();
     private RecyclerView recyclerView;
     private PokemonAdapter pokemonAdapter;
+
+    private int offset;
+    private boolean apto;
 
     @Nullable
     @Override
@@ -46,14 +54,37 @@ public class FragmentPokemons extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_pokemons);
 
-        pokemonAdapter = new PokemonAdapter(pokeList);
-
-        RecyclerView.LayoutManager layoutManager;
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        pokemonAdapter = new PokemonAdapter(getActivity());
 
         recyclerView.setAdapter(pokemonAdapter);
+        recyclerView.setHasFixedSize(true);
+        //final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),3);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int pastVisibleItens = layoutManager.findFirstVisibleItemPosition();
+
+                    if (apto) {
+                        if ((visibleItemCount + pastVisibleItens) >= totalItemCount) {
+                            Log.i(TAG, "Fim");
+
+                            apto = false;
+                            offset += 20;
+                            insertPokemon(offset);
+                        }
+
+                    }
+                }
+            }
+        });
+
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -67,37 +98,43 @@ public class FragmentPokemons extends Fragment {
             }
         }));
 
-       insertPokemon();
+        apto = true;
+        offset = 0;
+       insertPokemon(offset);
 
         return rootView;
     }
 
-    private void insertPokemon() {
+
+    private void insertPokemon(int offset) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
-        for(int i = 1; i <= 30; i++) {
-            Call<Pokemon> call = apiService.getPokemon(i);
-            call.enqueue(new Callback<Pokemon>() {
+            Call<ListPokemon> call = apiService.getPokemonList(20,offset);
+            call.enqueue(new Callback<ListPokemon>() {
                 @Override
-                public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                public void onResponse(Call<ListPokemon> call, Response<ListPokemon> response) {
+                    apto = true;
                     if(response.isSuccessful()) {
-                        Pokemon pokemon = response.body();
+                        ListPokemon listPokemon = response.body();
+                        ArrayList<Pokemon> listaPokemons = listPokemon.getResults();
 
-                        pokeList.add(pokemon);
+                        pokemonAdapter.adicionar(listaPokemons);
+                        pokeList.add(listPokemon);
                         pokemonAdapter.notifyDataSetChanged();
-
-                        Log.i("POKEMON", "Name: " + pokemon.getName());
-                        Log.i("POKEMON", "Height: " + pokemon.getHeight());
-                        Log.i("POKEMON", "Weight: " + pokemon.getWeight());
+                    }
+                    else {
+                        Log.e(TAG,"ON FAILURE" + response.errorBody());
 
                     }
+
                 }
                 @Override
-                public void onFailure(Call<Pokemon> call, Throwable t) {
+                public void onFailure(Call<ListPokemon> call, Throwable t) {
+                    apto = true;
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-        }
+
     }
 
     private void startDetail(int id) {
